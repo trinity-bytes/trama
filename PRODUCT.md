@@ -29,4 +29,4 @@ The existing generator, course catalogue and graph algorithms are in the reposit
 
 ## Open Decisions
 
-No production deployment, remote publication or supported browser matrix has been established by this implementation request.
+GitHub Pages publishes the repository root from `main` at https://trama.jahattrinidad.com with HTTPS enforced. The DNS record is managed in Cloudflare; deployment did not change it. A supported browser matrix has not been established.
