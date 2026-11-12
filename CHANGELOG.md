@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.0.0] - 2026-11-11
+
+### Added
+- Trama Grove interface with responsive curriculum grid, graph, analysis and course details.
+- Explicit application state, canonical graph relations and deterministic regression coverage.
+
+### Changed
+- Renamed the product and repository references to Trama.
+- Replaced the active Bootstrap interface in one cutover with native components and dialogs.
+- Kept random initial generation and explicit seeded reproducibility; design examples are not fixed data.
+
+### Fixed
+- Stale analysis/export snapshots after regeneration.
+- Search and course selection inconsistencies and graph lifecycle cleanup.
+- Validation robustness and directional direct/indirect relationship presentation.
+
+
 Todas las novedades relevantes de este proyecto serán documentadas en este archivo.
 
 ## [2.0] - 2025-08-16
