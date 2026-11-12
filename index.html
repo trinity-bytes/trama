@@ -1,375 +1,108 @@
-<!-- 
- Proyecto Aplicación de relaciones de orden parcial - CurriculumFLOW
-
-Problema propuesto:
-	- Suponga que una carrera de la universidad tiene 50 cursos obligatorios.
-	- Defina la relación de orden parcial “prerrequisito”:
-		  a𝑅𝑏 <-> 𝑎 𝑒𝑠 𝑝𝑟𝑒𝑟𝑟𝑒𝑞𝑢𝑖𝑠𝑖𝑡𝑜 𝑑𝑒 𝑏
-	- Debe asumir que cada curso es prerrequisito de si mismo.
-	- Los cursos 𝐶1,𝐶2,𝐶3,𝐶4,𝐶5 son los cursos del primer ciclo, por lo tanto, no tienen prerrequisitos.
-	- Los cursos 𝐶46,𝐶47,𝐶48,𝐶49,𝐶50 son los cursos del décimo ciclo, por lo tanto, no son prerrequisitos
-	- de algún curso.
-	- En forma aleatoria defina que los cursos 𝐶1,𝐶2,𝐶3,………,𝐶44,𝐶45 son prerrequisitos de 0, 1 o 2
-	  cursos.
-	- El programa debe ordenar a los cursos en los 10 ciclos de la carrera.
- -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CurriculumFlow - Gestión Inteligente de Prerrequisitos</title>
-    <link
-      rel="icon"
-      type="image/png"
-      href="assets/imgs/logo-isotipo-teal.png"
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
     />
+    <meta name="theme-color" content="#061c1a" />
+    <meta name="color-scheme" content="dark" />
     <meta
       name="description"
-      content="Plataforma avanzada para la gestión y visualización de prerrequisitos académicos basada en relaciones de orden parcial"
+      content="Trama: explora una malla curricular y sus relaciones de prerrequisitos."
     />
-  <!-- Open Graph / Twitter: Social preview -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="CurriculumFlow" />
-  <meta property="og:title" content="CurriculumFlow — Gestión de Prerrequisitos y Posets" />
-  <meta property="og:description" content="Explora el grafo de prerrequisitos, Hasse, carriles por ciclo, orden topológico y exportaciones CSV/JSON. Semillas reproducibles y demo en vivo." />
-  <meta property="og:url" content="https://trinity-bytes.github.io/CurriculumFLOW/" />
-  <meta property="og:image" content="https://trinity-bytes.github.io/CurriculumFLOW/assets/screenshots/01-home-dashboard.png" />
-  <meta property="og:image:alt" content="Vista principal de CurriculumFlow con panel de control y resumen" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CurriculumFlow — Gestión de Prerrequisitos y Posets" />
-  <meta name="twitter:description" content="Grafo interactivo, Hasse, carriles, orden topológico y exportaciones. Demo en GitHub Pages." />
-  <meta name="twitter:image" content="https://trinity-bytes.github.io/CurriculumFLOW/assets/screenshots/01-home-dashboard.png" />
-  <meta name="theme-color" content="#2A6EB8" />
-    <!-- Google Fonts: Montserrat & Inter -->
-    <link rel="stylesheet" href="assets/fonts/local-google-fonts.css" />
-
-    <!-- Bootstrap CDN -->
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="css/bootstrap-icons/bootstrap-icons.css" />
-    <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/Graph.css" />
+    <title>Trama — Malla curricular</title>
+    <link rel="icon" href="assets/trama/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/trama.css" />
+    <script defer src="js/lib/cytoscape.min.js"></script>
+    <script defer src="js/lib/dagre/dagre.min.js"></script>
+    <script defer src="js/lib/cytoscape-dagre/cytoscape-dagre.js"></script>
+    <script type="module" src="js/ui/app.mjs"></script>
   </head>
   <body>
-    <!-- Header mejorado -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow">
-      <!-- Removed bg-gradient-primary for now, will be handled by new CSS -->
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-          <img
-            src="assets/imgs/logo-isotipo.png"
-            alt="CurriculumFlow Logo"
-            style="height: 50px; margin-right: 12px"
-          />
-          <!-- Added Isotipo -->
-          <div>
-            <div class="fw-bold">CurriculumFlow</div>
-            <small class="text-light opacity-75 navbar-subtitle"
-              >Academic Management Platform</small
-            >
-          </div>
-        </a>
-        <div class="ms-auto">
-          <span class="badge bg-light text-dark me-2">
-            <i class="bi bi-mortarboard me-1"></i>
-            Sistema Académico
-          </span>
-          <span class="badge bg-warning text-dark">
-            <i class="bi bi-graph-up me-1"></i>
-            v2.0
-          </span>
-        </div>
-      </div>
+    <a class="skip" href="#workspace">Saltar al contenido</a>
+    <header class="app-bar">
+      <button class="brand" data-action="about" aria-label="Acerca de Trama">
+        <img src="assets/trama/mark.svg" width="24" height="24" alt="" />Trama
+      </button>
+      <nav class="view-nav" aria-label="Vistas principales">
+        <button data-view="grid">Malla</button
+        ><button data-view="graph">Grafo</button
+        ><button data-view="analysis">Análisis</button>
+      </nav>
+      <label class="search"
+        ><img
+          src="assets/trama/search.svg"
+          width="16"
+          height="16"
+          alt=""
+        /><span class="sr-only">Buscar curso o código</span
+        ><input
+          id="search"
+          placeholder="Buscar curso o código"
+          type="search"
+          autocomplete="off"
+        /><kbd>/</kbd></label
+      >
+      <button class="seed-chip" data-action="seed">
+        <img src="assets/trama/dot.svg" width="6" height="6" alt="" /><span
+          id="seed-label"
+          >SEMILLA</span
+        ><img src="assets/trama/regenerate.svg" width="14" height="14" alt="" />
+      </button>
+      <button
+        class="icon-button mobile-search-toggle"
+        data-action="search"
+        aria-label="Buscar curso"
+      >
+        <img src="assets/trama/search.svg" width="16" height="16" alt="" />
+      </button>
+      <button
+        class="icon-button"
+        data-action="about"
+        aria-label="Acerca de Trama"
+      >
+        <img src="assets/trama/info.svg" width="18" height="18" alt="" />
+      </button>
+    </header>
+    <main id="workspace" tabindex="-1"></main>
+    <nav class="bottom-nav" aria-label="Vistas móviles">
+      <button data-view="grid">
+        <img
+          src="assets/trama/nav-grid.svg"
+          width="20"
+          height="20"
+          alt=""
+        />Malla</button
+      ><button data-view="graph">
+        <img
+          src="assets/trama/nav-graph.svg"
+          width="20"
+          height="20"
+          alt=""
+        />Grafo</button
+      ><button data-view="analysis">
+        <img
+          src="assets/trama/nav-analysis.svg"
+          width="20"
+          height="20"
+          alt=""
+        />Análisis
+      </button>
     </nav>
-
-    <!-- Hero Section -->
-    <div class="hero-section bg-light py-4 border-bottom">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-8">
-            <h1 class="h3 mb-2 text-primary">
-              <i class="bi bi-trophy me-2"></i>
-              Dashboard de Gestión Curricular
-            </h1>
-            <p class="text-muted mb-1">
-              Visualiza y gestiona 50 cursos distribuidos en 10 ciclos
-              académicos usando algoritmos de orden parcial
-            </p>
-            <p
-              class="text-secondary fw-semibold mb-0"
-              style="font-style: italic"
-            >
-              "Optimiza las rutas académicas, maximiza el potencial"
-            </p>
-          </div>
-          <div class="col-md-4 text-end">
-            <div class="stats-card bg-white p-3 rounded shadow-sm">
-              <div class="row text-center">
-                <div class="col-4">
-                  <div class="h4 mb-0 text-primary">50</div>
-                  <small class="text-muted">Cursos</small>
-                </div>
-                <div class="col-4">
-                  <div class="h4 mb-0 text-success">10</div>
-                  <small class="text-muted">Ciclos</small>
-                </div>
-                <div class="col-4">
-                  <div class="h4 mb-0 text-warning">
-                    <i class="bi bi-infinity"></i>
-                  </div>
-                  <small class="text-muted">Relaciones</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container mt-4">
-      <div class="row">
-        <div class="col-md-3">
-          <!-- Panel de control mejorado -->
-          <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h6 class="mb-0">
-                <i class="bi bi-gear me-2"></i>
-                Panel de Control
-              </h6>
-            </div>
-            <div class="card-body">
-              <div class="d-grid gap-3">
-                <button id="btnMostrarCursos" class="btn btn-outline-primary">
-                  <i class="bi bi-grid-3x3-gap me-2"></i>
-                  Ver Malla Curricular
-                </button>
-                <button
-                  id="btnMostrarPrerequisitos"
-                  class="btn btn-outline-success"
-                >
-                  <i class="bi bi-diagram-2 me-2"></i>
-                  Analizar Prerrequisitos
-                </button>
-                <button id="btnMostrarGrafo" class="btn btn-outline-info">
-                  <i class="bi bi-share me-2"></i>
-                  Visualización Interactiva
-                </button>
-                <button id="btnValidarPlan" class="btn btn-primary">
-                  <i class="bi bi-check2-circle me-2"></i>
-                  Validar Plan (Reglas 10×5)
-                </button>
-                <button id="btnMostrarOrdenTopologico" class="btn btn-outline-dark">
-                  <i class="bi bi-list-ol me-2"></i>
-                  Ver Orden Topológico
-                </button>
-              </div>
-
-              <hr class="my-3" />
-
-              <!-- Combined Query and Search Section -->
-              <div class="mb-3">
-                <label for="buscarCursoInput" class="form-label fw-semibold">
-                  <i class="bi bi-search me-1"></i>
-                  Buscar Curso:
-                </label>
-                <div id="searchFeedback" class="form-text text-muted mt-1" style="min-height: 1.2em" aria-live="polite" aria-atomic="true"></div>
-                <!-- Buscador con acciones -->
-                <div class="input-group mb-2">
-                  <input
-                    type="text"
-                    id="buscarCursoInput"
-                    class="form-control"
-                    placeholder="Buscar por nombre, ID o palabra clave..."
-                    aria-label="Buscar curso"
-                    aria-describedby="searchFeedback searchShortcutsHint"
-                  />
-                  <button class="btn btn-outline-primary" id="btnBuscarCurso" type="button">
-                    <i class="bi bi-search"></i>
-                    Buscar
-                  </button>
-                  <button class="btn btn-outline-secondary" id="btnLimpiarBusqueda" type="button" title="Limpiar">
-                    <i class="bi bi-x-circle"></i>
-                  </button>
-                </div>
-                <!-- Sugerencias dinámicas -->
-                <div id="searchSuggestions" class="list-group d-none" role="listbox" aria-label="Sugerencias de cursos"></div>
-                <small id="searchShortcutsHint" class="text-muted">Atajos: Enter = Buscar • ↓ = Navegar sugerencias • Esc = Cerrar</small>
-
-                <label for="cursoSelect" class="form-label fw-semibold">
-                  <i class="bi bi-binoculars me-1"></i>
-                  Consulta Específica:
-                </label>
-
-                <select id="cursoSelect" class="form-select"></select>
-                <div class="d-grid gap-2 mt-2">
-                  <button id="btnConsultarCurso" class="btn btn-secondary">
-                    <i class="bi bi-info-circle me-2"></i>
-                    Consultar Detalles
-                  </button>
-                  <button id="btnVerEnGrafo" class="btn btn-outline-info" aria-describedby="searchFeedback">
-                    <i class="bi bi-crosshair me-2"></i>
-                    Ver en Grafo
-                  </button>
-                </div>
-              </div>
-              <!-- End of Combined Query and Search Section -->
-
-              <!-- Regenerar relaciones (con semilla) -->
-              <div class="mb-3">
-                <label for="seedInput" class="form-label fw-semibold">
-                  <i class="bi bi-shuffle me-1"></i>
-                  Regenerar Relaciones (Semilla opcional)
-                </label>
-                <div class="input-group">
-                  <input type="text" id="seedInput" class="form-control" placeholder="Ej: 2025, my-seed" />
-                  <button id="btnRegenerarRelaciones" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-repeat me-1"></i>
-                    Regenerar
-                  </button>
-                </div>
-                <div class="d-grid mt-2">
-                  <button id="btnCopySeedLink" class="btn btn-outline-primary">
-                    <i class="bi bi-link-45deg me-1"></i>
-                    Copiar enlace con semilla
-                  </button>
-                </div>
-                <div class="form-text">Usa una semilla para obtener el mismo grafo en futuras ejecuciones.</div>
-              </div>
-
-              <!-- Información adicional (Tecnología) - Moved Down -->
-              <div class="mt-3">
-                <!-- Adjusted margin-top if needed -->
-                <div class="alert alert-light info-box-tecnologia">
-                  <small class="text-muted">
-                    <i class="bi bi-lightbulb me-1"></i>
-                    <strong>Tecnología:</strong> Algoritmos de orden parcial
-                    para optimización académica
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-9">
-          <!-- Contenido principal -->
-          <div id="mainContent" class="card">
-            <div class="card-header" id="contentTitle">Bienvenido</div>
-            <div class="card-body" id="contentBody">
-              <p>Seleccione una opción del menú para comenzar.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  <!-- Visualización del grafo: gestionada dinámicamente por GraphView -->
-  <!-- Contenedor estático removido para evitar IDs duplicados de #cy -->
-
-    <!-- Modal para detalles de curso -->
-  <div class="modal fade" id="cursoModal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cursoModalTitle" aria-describedby="cursoModalBody">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="cursoModalTitle">Detalles del Curso</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body" id="cursoModalBody">
-            <!-- Contenido dinámico -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script src="js/lib/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="js/lib/cytoscape.min.js"></script>
-    <script src="js/lib/dagre/dagre.min.js"></script>
-    <script src="js/lib/cytoscape-dagre/cytoscape-dagre.js"></script>
-    <script src="js/models/Curso.js"></script>
-    <script src="js/models/Curriculum.js"></script>
-    <script src="js/views/CursoView.js"></script>
-    <script src="js/views/GraphView.js"></script>
-    <script src="js/controllers/AppController.js"></script>
-    <script src="js/main.js"></script>
-
-    <!-- Footer profesional -->
-    <footer class="bg-dark text-light py-4 mt-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="d-flex align-items-center mb-3">
-              <img
-                src="assets/imgs/logo-isotipo-footer.png"
-                alt="CurriculumFlow Footer Logo"
-                style="height: 30px; margin-right: 10px"
-              />
-              <div>
-                <h6 class="fw-bold mb-0 text-light">CurriculumFlow</h6>
-                <small class="text-light opacity-75"
-                  >"Optimiza las rutas académicas, maximiza el potencial"</small
-                >
-              </div>
-            </div>
-            <p class="small mb-2 text-light">
-              Plataforma de gestión académica basada en algoritmos de orden
-              parcial. Desarrollado para optimizar la planificación curricular
-              universitaria.
-            </p>
-            <div class="text-warning small">
-              <i class="bi bi-award me-1"></i>
-              Proyecto de Matemática Discreta - UPC 2025
-            </div>
-          </div>
-          <div class="col-md-3">
-            <h6 class="fw-bold text-light">Características</h6>
-            <ul class="list-unstyled small">
-              <li>
-                <i class="bi bi-check2 text-success me-1"></i>
-                <span class="text-light">Análisis de 50 cursos</span>
-              </li>
-              <li>
-                <i class="bi bi-check2 text-success me-1"></i>
-                <span class="text-light">10 ciclos académicos</span>
-              </li>
-              <li>
-                <i class="bi bi-check2 text-success me-1"></i>
-                <span class="text-light">Visualización interactiva</span>
-              </li>
-              <li>
-                <i class="bi bi-check2 text-success me-1"></i>
-                <span class="text-light">Algoritmos optimizados</span>
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-3">
-            <h6 class="fw-bold text-light">Tecnologías</h6>
-            <div class="d-flex flex-wrap gap-1">
-              <span class="badge bg-primary">JavaScript ES6+</span>
-              <span class="badge bg-info">Bootstrap 5</span>
-              <span class="badge bg-success">Cytoscape.js</span>
-              <span class="badge bg-warning text-dark">Graph Theory</span>
-            </div>
-          </div>
-        </div>
-        <hr class="my-3" />
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <small class="text-light">
-              © 2025 CurriculumFlow. Aplicación de relaciones de orden parcial.
-            </small>
-          </div>
-          <div class="col-md-6 text-end">
-            <small class="text-light">
-              Versión 2.0 | Universidad Peruana de Ciencias Aplicadas
-            </small>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <div
+      id="announcement"
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+    <div id="toast" role="status" hidden></div>
+    <dialog id="modal" aria-labelledby="dialog-title"></dialog>
+    <noscript
+      >Trama necesita JavaScript para generar y explorar la malla
+      curricular.</noscript
+    >
   </body>
 </html>
