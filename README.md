@@ -30,6 +30,8 @@ An explicit `?seed=2025` reproduces that scenario. Share links retain the active
 - `css/trama.css`: Grove tokens, components and responsive layouts.
 - `tests/`: deterministic regression coverage and browser smoke checks.
 
+The former MVC source and Bootstrap vendor files are retained as inactive historical references; the domain regression tests compare against the original model algorithm. They are not loaded by `index.html`.
+
 Cytoscape and Dagre remain local browser dependencies. Bootstrap is not part of the active interface. `PRODUCT.md` and `DESIGN.md` record the approved product and visual constraints.
 
 ## Verification
