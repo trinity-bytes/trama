@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.1] - 2026-11-11
+
+### Fixed
+- Keep dependency cards visible and scrollable when a relationship lane contains multiple courses.
+- Align graph courses with their academic cycle bands and keep bands synchronized while zooming and panning.
+
 ## [3.0.0] - 2026-11-11
 
 ### Added

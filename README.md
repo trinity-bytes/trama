@@ -10,7 +10,7 @@
     · <a href="CHANGELOG.md">Changelog</a>
   </p>
   <p>
-    <a href="https://github.com/trinity-bytes/trama/tree/3.0.0"><img src="https://img.shields.io/badge/version-3.0.0-cbf15a?labelColor=0d2925" alt="Version 3.0.0"></a>
+    <a href="https://github.com/trinity-bytes/trama/tree/3.0.1"><img src="https://img.shields.io/badge/version-3.0.1-cbf15a?labelColor=0d2925" alt="Version 3.0.1"></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-cbf15a?labelColor=0d2925" alt="MIT license"></a>
     <img src="https://img.shields.io/badge/built_with-vanilla_JavaScript-cbf15a?labelColor=0d2925" alt="Built with vanilla JavaScript">
   </p>
