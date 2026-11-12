@@ -11,7 +11,7 @@ Implement the approved Trama v2 interface and architecture audit corrections. Ba
 ## Tasks
 - T1 [S1,S2] domain/state: delegated, complete; parallel independent domain and UI units with disjoint edit surfaces and an agreed module contract. feature/domain-state; commit dbfbf7d. Node characterization and RED/GREEN tests. Risk: item 3 (shared state/model contracts).
 - T2 [S1,S2,S3] interface: delegated, complete; independent UI unit consumes the declared domain/state contract. feature/trama-interface; commit 039296d. Browser checks and source tests. Risk: item 3 (existing URL/navigation/export behavior), item 5 (Bootstrap removal).
-- T3 [S1-S5] integration, branding, docs and verification: inline, complete. feature/trama-integration. Full tests, browser checks, independent risk verification. Risk: items 3,5.
+- T3 [S1-S5] integration, branding, docs and verification: inline, complete. feature/trama-integration; commit c615573. Full tests, browser checks, independent risk verification. Risk: items 3,5.
 - T4 [S4,S5] release: inline, pending. release/3.0.0. Check version, branch ancestry, tag and clean tracked tree. Risk: item 5 (local release).
 
 ## Log
@@ -30,3 +30,5 @@ Implement the approved Trama v2 interface and architecture audit corrections. Ba
 - L10 T2 committed as 039296d (`feat(ui): implement the responsive trama curriculum explorer`) and integrated into develop by Git Flow fast-forward; feature branch retained. Native assessment high/item 5, RDD disabled/unmanaged. Parent reran all 15 Node tests and the committed full browser flow suite at 1440/768/390; zero page errors/failed assets. Scoped mobile regression also passes. No installs, source hooks or remote calls occurred.
 - L11 T3: origin locally changed to https://github.com/trinity-bytes/trama.git; working directory deliberately remains curriculum-flow to avoid disrupting the active workspace. Engram re-resolution still reports canonical project curriculum-flow at the matching directory. CodeGraph resynchronized after module edits. Legacy MVC/Bootstrap files are retained only as inactive historical source (domain differential tests use the legacy models); index loads none of them. Upstream license text retained with whitespace-only cleanup; no license terms removed.
 - L12 Delivery remains local: no push, PR, GitHub release or deployment. Authored feature totals exceed the advisory budget because the complete UI cutover includes components, responsive CSS and public-interface regression tests together; no artificial file-type splitting. Release 3.0.0 is the final integration boundary, not a promise of publication.
+
+- L13 T3 committed as c615573 (`docs(project): record trama integration and verification`) and integrated into develop. Git Flow release/3.0.0 started from that boundary. VERSION and changelog prepared for 3.0.0; runtime About/README already show 3.0.0. Release finish/tag and final ancestry checks are next; only those observations can close T4.
