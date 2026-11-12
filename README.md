@@ -1,5 +1,7 @@
 # Trama
 
+Canonical URL: **https://trama.jahattrinidad.com** (GitHub Pages).
+
 A static, interactive curriculum explorer: 50 demo courses, 10 academic cycles and randomly generated prerequisite relationships. Version **3.0.0** implements the approved Grove interface without Bootstrap.
 
 ## Run locally
@@ -57,7 +59,7 @@ Browser verification requires Chromium and Playwright; those are development too
 
 Repository: `https://github.com/trinity-bytes/trama`.
 
-Git Flow uses `main`, `develop`, `feature/`, `release/` and `hotfix/`. Feature branches integrate into `develop`; the local `3.0.0` release is finished with Git Flow AVH. Commit messages follow Conventional Commits in lowercase English. Pushing branches/tags, creating a GitHub release or deploying are separate operations; a local release tag does not mean publication.
+Git Flow uses `main`, `develop`, `feature/`, `release/` and `hotfix/`. Feature branches integrate into `develop`; the local `3.0.0` release is finished with Git Flow AVH. Commit messages follow Conventional Commits in lowercase English. GitHub Pages publishes `main` from the repository root. `CNAME` retains the custom domain `trama.jahattrinidad.com`; its DNS CNAME points to `trinity-bytes.github.io`, without the repository path. Deploying requires pushing the publishing branch; a release tag alone does not publish a site.
 
 ## License
 
