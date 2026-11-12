@@ -32,6 +32,34 @@ export function createGraph(
   const edges = (
     options.hasse ? hasseEdges(curriculum) : curriculum.edges
   ).filter(([a, b]) => ids.has(a) && ids.has(b));
+  // Keep each course in its actual academic cycle, independent of graph depth.
+  const cycleWidth = 220;
+  const rowHeight = 100;
+  const rows = new Map();
+  const positions = new Map();
+  for (const course of curriculum.courses) {
+    const row = rows.get(course.cycle) || 0;
+    rows.set(course.cycle, row + 1);
+    positions.set(course.id, { x: (course.cycle - 1) * cycleWidth, y: row * rowHeight });
+  }
+  const bands = document.createElement("div");
+  bands.className = "graph-bands";
+  bands.setAttribute("aria-hidden", "true");
+  if (options.bands) {
+    for (const cycle of [...rows.keys()].sort((a, b) => a - b)) {
+      const band = document.createElement("div");
+      band.className = "graph-band";
+      band.textContent = `Ciclo ${String(cycle).padStart(2, "0")}`;
+      Object.assign(band.style, {
+        left: `${(cycle - 1) * cycleWidth - cycleWidth / 2}px`,
+        top: "-70px",
+        width: `${cycleWidth}px`,
+        height: `${Math.max(...rows.values()) * rowHeight + 40}px`,
+      });
+      bands.append(band);
+    }
+  }
+  container.before(bands);
   const cy = globalThis.cytoscape({
     container,
     elements: [
@@ -41,6 +69,8 @@ export function createGraph(
           label: `${course.code} · ${course.name}`,
           cycle: course.cycle,
         },
+        position: positions.get(course.id),
+        grabbable: false,
         classes: courseClass(course.id, selected, relations),
       })),
       ...edges.map(([a, b]) => ({
@@ -120,20 +150,20 @@ export function createGraph(
       },
       { selector: "edge.indirect", style: { "line-style": "dashed" } },
     ],
-    layout: {
-      name: "dagre",
-      rankDir: matchMedia("(max-width: 700px)").matches ? "TB" : "LR",
-      rankSep: 70,
-      nodeSep: 28,
-      padding: 45,
-    },
+    layout: { name: "preset", padding: 45 },
     minZoom: 0.12,
     maxZoom: 2.5,
     wheelSensitivity: 0.2,
   });
+  const syncBands = () => {
+    const { x, y } = cy.pan();
+    bands.style.transform = `translate(${x}px, ${y}px) scale(${cy.zoom()})`;
+  };
+  cy.on("pan zoom", syncBands);
+  syncBands();
   cy.on("tap", "node", (event) => onSelect(Number(event.target.id())));
   return {
-    destroy: () => cy.destroy(),
+    destroy: () => { cy.destroy(); bands.remove(); },
     fit: () => cy.fit(undefined, 45),
     zoom: (factor) =>
       cy.zoom({

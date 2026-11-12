@@ -498,8 +498,8 @@ main {
 .flow-lane > div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 115px;
+  justify-content: safe center;
+  min-height: 135px;
 }
 .flow-lane .course {
   height: auto;
@@ -745,14 +745,22 @@ main {
   min-height: 400px;
   overflow: hidden;
 }
-.graph-shell.with-bands {
-  background: repeating-linear-gradient(
-    90deg,
-    var(--surface) 0%,
-    var(--surface) 10%,
-    #0a2521 10%,
-    #0a2521 20%
-  );
+.graph-bands {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+.graph-band {
+  position: absolute;
+  background: #0a2521;
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+  padding-top: 12px;
+}
+.graph-band:nth-child(even) {
+  background: #10312b;
 }
 #graph {
   position: absolute;
@@ -1312,7 +1320,7 @@ dialog .clear-selection {
 }
 @media (min-width: 701px) {
   .flow-lane > div {
-    max-height: 150px;
+    max-height: 210px;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -1354,10 +1362,6 @@ dialog .clear-selection {
   }
 }
 @media (min-width: 701px) {
-  .flow-lane > div {
-    max-height: 108px;
-    min-height: 108px;
-  }
   .relationship-strip {
     min-height: 224px;
   }
