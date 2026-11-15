@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.1.0] - 2026-11-15
+
+### Added
+- Exact Figma Cover Open Graph image, canonical URL and Open Graph/Twitter large-image metadata.
+- Automated Loom visual-contract and social-metadata regression checks.
+
+### Changed
+- Ported the approved Loom palette, Schibsted Grotesk headings and woven-T branding to desktop and mobile.
+- Quieted default course tiles, compacted relationship stats and removed redundant validation decoration.
+- Updated graph and PNG export colors, mobile navigation icons and self-hosted licensed assets.
+- Refreshed README screenshots, cover, usage and verification guidance.
+
+### Fixed
+- Prevent Chromium crashes in graph-pan regression tests by avoiding serialization of the Cytoscape core.
+
 ## [3.0.1] - 2026-11-11
 
 ### Fixed

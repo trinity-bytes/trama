@@ -7,10 +7,10 @@ Ship the approved UI and Figma Cover preview. Branch: feature/loom-ui → develo
 - S3: "no olvides actualizar el readme". Update the README with the Cover image, Loom description, release and checks.
 
 ## Tasks
-- T1 [S2,S3] inline, pending: commit the already-verified Loom UI with docs and visual tests. Risk: none; no writer trigger.
+- T1 [S2,S3] inline, complete (c553a74): commit the already-verified Loom UI with docs and visual tests. Risk: none; no writer trigger.
 - T2 [S2] inline, complete (82735ae): fix pre-existing browser pan-test serialization; independent verifier observed RED on base and GREEN on base/candidate with void callback. Risk: none.
-- T3 [S1,S3] inline, pending: exact Cover PNG, social metadata and regression test. Risk: none.
-- T4 [S2,S3] inline, pending: prepare 3.1.0, independent release verification, Git Flow finish, push main/develop/tag, publish GitHub release, verify Pages and live preview. Risk: item 5 (release/deployment). Independent verifier required; no writer trigger.
+- T3 [S1,S3] inline, complete (c553a74): exact Cover PNG, social metadata and regression test. Risk: none.
+- T4 [S2,S3] inline, in progress: prepare 3.1.0, independent release verification, Git Flow finish, push main/develop/tag, publish GitHub release, verify Pages and live preview. Risk: item 5 (release/deployment). Independent verifier required; no writer trigger.
 
 ## Log
 - L1 User request: "va, tamhien ennelnfigma hay uma pagina de cover donde esta la imagen del social preview, esta web la usara. sube todo al remote y prepara la release con git-flow, lo quiero todo en produccion y tienes mi autorizacion para que puedas hacer las operaciones que mecesites"
@@ -19,3 +19,5 @@ Ship the approved UI and Figma Cover preview. Branch: feature/loom-ui → develo
 - L4 Independent verifier found original layout test crashes on base 6c2a6ad too: implicit Cytoscape core return from page.evaluate triggers serialization failure. Void callback passes both base and current candidate. Domain/application code and behavior unchanged. RDD globally disabled; do not enable it.
 
 - L5 Node domain/application/UI/metadata suites passed. All browser suites passed: corrected layout regression, Loom at 1440/768/390, full flows with zero page/asset errors, mobile focus and 44px targets. Cover PNG inspected at 1200×630. README screenshots refreshed from verified Loom captures; metadata test observed RED before tags and GREEN after.
+
+- L6 Feature commits: 82735ae (test harness), c553a74 (cohesive Loom UI/preview/docs/tests; 717 changed lines including 93-line license and Figma SVG exports; no PR requested). Git Flow integrated into develop and started release/3.1.0. VERSION, About, README badge and changelog synchronized to 3.1.0. Independent release verification follows before publication.
