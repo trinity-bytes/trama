@@ -52,7 +52,7 @@ function tile(course, state, relation, compact = false) {
       requires: "↤ requiere",
       unlocks: "desbloquea ↦",
       indirect: "indirecto",
-      selected: "seleccionado",
+      selected: "",
     }[status] ?? "";
   return `<button class="course ${status} ${compact ? "compact" : ""}" data-course="${course.id}" aria-pressed="${course.id === state.selectedCourseId}" title="${esc(course.code + " " + course.name)}"><span class="course-meta"><span>${esc(course.code)}</span><span>${label}</span></span><span class="course-name">${esc(course.name)}</span></button>`;
 }
@@ -87,7 +87,7 @@ function details(state) {
             .join("")
         : '<p class="muted">Sin cursos</p>'
     }</div></section>`;
-  return `<section class="relationship-strip" aria-label="Detalle del curso"><div class="course-identity"><p class="mono lime">${esc(course.code)} · Ciclo ${pad(course.cycle)}</p><h2>${esc(course.name)}</h2><div class="stats"><span><strong class="lime">${relation.requires.length}</strong>requiere</span><span><strong class="amber">${relation.unlocks.length}</strong>desbloquea</span><span><strong>${relation.descendants.length}</strong>en su alcance</span></div><div class="actions">${button("graph", "Ver en grafo ↗", 'class="primary"')}${button("route", "Ruta completa")}${button("share", "Compartir")}</div></div><div class="dependency-flow"><h3>Trama de dependencias</h3><div class="flow-lanes">${lane("Requiere", relation.requires, "requires")}<img class="flow-arrow" src="assets/trama/arrow.svg" width="24" height="24" alt="hacia">${lane("Este curso", [course.id], "selected")}<img class="flow-arrow" src="assets/trama/arrow.svg" width="24" height="24" alt="hacia">${lane("Desbloquea", relation.unlocks, "unlocks")}<img class="flow-arrow" src="assets/trama/arrow.svg" width="24" height="24" alt="hacia">${lane(
+  return `<section class="relationship-strip" aria-label="Detalle del curso"><div class="course-identity"><p class="bone identity-caption"><span class="mono">${esc(course.code)}</span> · Ciclo ${pad(course.cycle)}</p><h2>${esc(course.name)}</h2><div class="stats"><span><strong class="bone">${relation.requires.length}</strong>requiere</span><span><strong class="terracotta">${relation.unlocks.length}</strong>desbloquea</span><span><strong>${relation.descendants.length}</strong>en su alcance</span></div><div class="actions">${button("graph", "Ver en grafo ↗", 'class="primary"')}${button("route", "Ruta completa")}${button("share", "Compartir")}</div></div><div class="dependency-flow"><h3>Trama de dependencias</h3><div class="flow-lanes">${lane("Requiere", relation.requires, "requires")}<img class="flow-arrow" src="assets/trama/arrow.svg" width="24" height="24" alt="hacia">${lane("Este curso", [course.id], "selected")}<img class="flow-arrow" src="assets/trama/arrow.svg" width="24" height="24" alt="hacia">${lane("Desbloquea", relation.unlocks, "unlocks")}<img class="flow-arrow" src="assets/trama/arrow.svg" width="24" height="24" alt="hacia">${lane(
     "Luego habilita",
     relation.descendants.filter((id) => !relation.unlocks.includes(id)),
     "indirect",
@@ -99,6 +99,7 @@ function gridView(state, matches) {
     ...new Set(state.curriculum.courses.map((course) => course.cycle)),
   ];
   const filtered = new Set(matches.map((course) => course.id));
+  const selectedCourse = state.curriculum.courses.find((course) => course.id === state.selectedCourseId);
   const grid = cycles
     .map(
       (cycle) =>
@@ -109,7 +110,7 @@ function gridView(state, matches) {
     )
     .join("");
   const cyclePicker = `<nav class="cycle-picker" aria-label="Seleccionar ciclo">${cycles.map((cycle) => `<button data-cycle="${cycle}" aria-current="${cycle === state.cycle ? "true" : "false"}">Ciclo <strong>${pad(cycle)}</strong></button>`).join("")}</nav><p class="cycle-caption">Ciclo ${pad(state.cycle)} · ${matches.filter((course) => course.cycle === state.cycle).length} cursos</p>`;
-  return `${cyclePicker}<div class="curriculum-grid">${grid}</div>${details(state)}${state.selectedCourseId !== null ? `<div class="mobile-selection">${button("detail", "Ver detalle", 'class="primary"')}<span>${esc(state.curriculum.courses.find((course) => course.id === state.selectedCourseId)?.name)}</span></div>` : ""}`;
+  return `${cyclePicker}<div class="curriculum-grid">${grid}</div>${details(state)}${state.selectedCourseId !== null ? `<div class="mobile-selection">${button("detail", "Ver detalle", 'class="primary"')}<div class="mobile-selection-copy"><p>${esc(selectedCourse?.code)} · ${esc(selectedCourse?.name)}</p><div class="stats"><span class="bone">${relation.requires.length} requiere</span><span class="terracotta">${relation.unlocks.length} desbloquea</span></div></div></div>` : ""}`;
 }
 function analysisView(state) {
   const result = validateCurriculum(state.curriculum);
@@ -171,7 +172,7 @@ function analysisView(state) {
     .join("")}</nav>`;
   let body = "";
   if (state.analysisTab === "validation") {
-    body = `<div class="analysis-layout"><section class="panel verdict"><div class="verdict-head"><h2>${result.ok ? `El plan cumple las ${result.checks.length} reglas.` : "Hay reglas por revisar."}</h2><strong class="lime">${result.checks.filter((check) => check.ok).length}/${result.checks.length}</strong></div><div class="rules">${result.checks.map((check) => `<article class="rule"><img src="assets/trama/${check.ok ? "check" : "info"}.svg" width="22" height="22" alt="${check.ok ? "Correcto" : "Revisar"}"><div><h3>${esc(check.name)}</h3><p>${esc(typeof check.details === "string" ? check.details : JSON.stringify(check.details))}</p></div><span class="rule-progress ${check.ok ? "ok" : ""}"></span><span>${check.ok ? "Cumple" : "Revisar"}</span></article>`).join("")}</div></section><aside><section class="panel"><h3>Qué se comprueba</h3><p>Las reglas del ejemplo: 50 cursos repartidos en 10 ciclos. Esta comprobación no sustituye una validación académica oficial.</p><div class="stats"><span><strong>${result.metrics.totalCourses}</strong>cursos</span><span><strong>${result.metrics.cycles}</strong>ciclos</span><span><strong>${result.metrics.edges}</strong>relaciones</span></div></section><section class="panel demo-note"><h3>Datos de demostración</h3><p>Si cambia la semilla, las relaciones se regeneran y estos resultados se vuelven a calcular.</p>${button("seed", "Cambiar semilla")}</section></aside></div>`;
+    body = `<div class="analysis-layout"><section class="panel verdict"><div class="verdict-head"><h2>${result.ok ? `El plan cumple las ${result.checks.length} reglas.` : "Hay reglas por revisar."}</h2><strong class="bone">${result.checks.filter((check) => check.ok).length}/${result.checks.length}</strong></div><div class="rules">${result.checks.map((check) => `<article class="rule"><img src="assets/trama/${check.ok ? "check" : "info"}.svg" width="22" height="22" alt="${check.ok ? "Correcto" : "Revisar"}"><div><h3>${esc(check.name)}</h3><p>${esc(typeof check.details === "string" ? check.details : JSON.stringify(check.details))}</p></div><span>${check.ok ? "Cumple" : "Revisar"}</span></article>`).join("")}</div></section><aside><section class="panel"><h3>Qué se comprueba</h3><p>Las reglas del ejemplo: 50 cursos repartidos en 10 ciclos. Esta comprobación no sustituye una validación académica oficial.</p></section><section class="panel demo-note"><h3>Datos de demostración</h3><p>Si cambia la semilla, las relaciones se regeneran y estos resultados se vuelven a calcular.</p>${button("seed", "Cambiar semilla")}</section></aside></div>`;
   } else {
     const ordered =
       state.analysisTab === "topology"
@@ -206,7 +207,7 @@ function analysisView(state) {
 }
 function graphView(state) {
   const metrics = metricsFor(state.curriculum);
-  return `<p class="graph-metrics mono">${metrics.minima.length} mínimos · ${metrics.maxima.length} máximos · altura ${metrics.height}</p><div class="graph-options"><div class="segmented">${[
+  return `<p class="graph-metrics">${metrics.minima.length} mínimos · ${metrics.maxima.length} máximos · altura ${metrics.height}</p><div class="graph-options"><div class="segmented">${[
     ["direct", "Directas"],
     ["full", "Alcance completo"],
     ["all", "Todo el plan"],
@@ -249,10 +250,10 @@ function render() {
       ),
     );
   document.querySelector("#seed-label").textContent =
-    `DEMO · SEMILLA ${state.curriculum.seed}`;
+    `Semilla ${state.curriculum.seed}`;
   const cycles = new Set(state.curriculum.courses.map((course) => course.cycle))
     .size;
-  workspace.innerHTML = `<div class="title-row"><div><h1>${state.query ? "Resultados de búsqueda" : { grid: "Malla curricular", graph: "Grafo de prerrequisitos", analysis: "Análisis del plan" }[state.view]}</h1><p class="subtitle mono">${state.query ? `${matches.length} resultados para «${esc(state.query)}»` : `${state.curriculum.courses.length} cursos · ${cycles} ciclos · ${state.curriculum.edges.length} relaciones`}</p></div>${state.view === "grid" && !state.query ? legend() : ""}</div>${state.query ? (matches.length ? `<div class="search-results">${matches.map((course) => tile(course, state, selectedRelations(state))).join("")}</div>` : `<section class="empty"><h2>No encontramos ese curso.</h2><p>Pruebe con otro nombre o código de curso.</p>${button("clear-search", "Limpiar búsqueda", 'class="primary"')}</section>`) : state.view === "grid" ? gridView(state, matches) : state.view === "analysis" ? analysisView(state) : graphView(state)}`;
+  workspace.innerHTML = `<div class="title-row"><div><h1>${state.query ? "Resultados de búsqueda" : { grid: "Malla curricular", graph: "Grafo de prerrequisitos", analysis: "Análisis del plan" }[state.view]}</h1><p class="subtitle">${state.query ? `${matches.length} resultados para «${esc(state.query)}»` : `${state.curriculum.courses.length} cursos · ${cycles} ciclos · ${state.curriculum.edges.length} relaciones`}</p></div>${state.view === "grid" && !state.query ? legend() : ""}</div>${state.query ? (matches.length ? `<div class="search-results">${matches.map((course) => tile(course, state, selectedRelations(state))).join("")}</div>` : `<section class="empty"><h2>No encontramos ese curso.</h2><p>Pruebe con otro nombre o código de curso.</p>${button("clear-search", "Limpiar búsqueda", 'class="primary"')}</section>`) : state.view === "grid" ? gridView(state, matches) : state.view === "analysis" ? analysisView(state) : graphView(state)}`;
   if (state.view === "graph" && !state.query)
     graph = createGraph(
       document.querySelector("#graph"),
@@ -302,7 +303,7 @@ function showDialog(kind) {
   if (kind === "detail")
     modal.innerHTML = `<div class="dialog-head"><h2 id="dialog-title">Detalle del curso</h2>${button("close", "Cerrar")}</div>${details(state)}`;
   else if (kind === "about")
-    modal.innerHTML = `<div class="dialog-head"><h2 id="dialog-title">Acerca de Trama</h2>${button("close", "Cerrar")}</div><div class="about-brand"><img src="assets/trama/mark.svg" width="24" height="24" alt=""><span>Trama</span></div><p class="mono">Versión 3.0.1</p><p>Explore cómo se conectan los cursos de un plan de estudios.</p><p class="demo-note">Los cursos y relaciones son datos de demostración. No representan un plan académico oficial.</p><p>Hecho por Trinity Bytes · Licencia MIT</p>`;
+    modal.innerHTML = `<div class="dialog-head"><h2 id="dialog-title">Acerca de Trama</h2>${button("close", "Cerrar")}</div><div class="about-brand"><img src="assets/trama/mark.svg" width="24" height="24" alt=""><span>Trama</span></div><p>Versión 3.0.1</p><p>Explore cómo se conectan los cursos de un plan de estudios.</p><p class="demo-note">Los cursos y relaciones son datos de demostración. No representan un plan académico oficial.</p><p>Hecho por Trinity Bytes · Licencia MIT</p>`;
   else
     modal.innerHTML = `<div class="dialog-head"><h2 id="dialog-title">Datos de demostración</h2>${button("close", "Cerrar")}</div><p>Esta malla es un ejemplo. Los cursos se mantienen y las relaciones se generan aleatoriamente.</p><form id="seed-form"><label for="seed-input">Semilla reproducible</label><input id="seed-input" name="seed" value="${esc(state.curriculum.seed)}" required maxlength="120"><p class="muted">La misma semilla genera las mismas relaciones. Regenerar cambia el plan y limpia la selección.</p><div class="actions"><button class="primary" type="submit">Aplicar semilla</button>${button("random", "Regenerar al azar")}</div></form>`;
   if (!modal.open) modal.showModal();
