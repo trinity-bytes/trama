@@ -1,19 +1,21 @@
 # Trama design reference
 
-The approved Trama v2 Grove design is the source of truth, not the former Bootstrap interface. Mode: Operate. Reference: Figma `ILO4n89w9g60lgf1icRJOc`, page `65:2`.
+The approved Trama Loom (de-slopped Grove) design is the source of truth, not the former Bootstrap interface. Mode: Operate. Reference: Figma `ILO4n89w9g60lgf1icRJOc`, page `65:2`.
 
 ## Foundations
 
 | Role | Value |
 | --- | --- |
-| Canvas / surface / raised | `#061c1a` / `#0d2925` / `#12352f` |
-| Subtle / strong line | `#1c433c` / `#2a5a51` |
-| Primary / muted / faint text | `#ecf2e9` / `#8fa9a0` / `#809d93` |
-| Selected / requires | `#cbf15a` with `#072019` on filled accents |
-| Unlocks / indirect | `#f5b544`; dashed outline distinguishes indirect relationships |
-| Supporting accent | `#2cc9a7` |
-| Relationship tints | `#1b3a26` / `#2e3523` |
-| Display / UI / identifiers | Instrument Serif / Geist / Geist Mono |
+| Canvas / surface / raised | `#0f1813` / `#162019` / `#1d2a22` |
+| Subtle / strong line | `#26342b` / `#3a4b3f` |
+| Primary / muted / faint text | `#ece8dc` / `#a3ad9f` / `#869180` |
+| Selected / requires | `#e9e2c9` with `#131b15` on filled accents |
+| Unlocks / indirect | `#e98a54`; dashed outline distinguishes indirect relationships |
+| Supporting accent | `#86c29a` |
+| Relationship tints | `#2b3229` / `#36281f` |
+| Display / UI / identifiers | Schibsted Grotesk SemiBold / Geist / Geist Mono |
+
+Display headings use -2% tracking. Geist Mono is reserved for course codes, numeric identifiers and keyboard hints. Default and dimmed tiles have no visible border; content is top-aligned. Relationship outlines remain explicit. Detail stats are inline at 13px, not oversized counters. Validation has no decorative full progress bars or repeated fact counters; demo notices use neutral raised surfaces. The logo is the exported bone woven-T mark.
 
 ## Composition
 

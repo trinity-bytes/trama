@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
-const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  await page.goto('http://127.0.0.1:8000/?seed=2025&course=5');
+  await page.goto(`${process.env.TRAMA_BASE_URL || 'http://127.0.0.1:8000'}/?seed=2025&course=5`);
   const lanes = page.locator('.flow-lane:nth-of-type(3) > div');
   assert.equal(await lanes.locator('.course').count(), 2);
   assert.ok(await lanes.evaluateAll(elements => elements.every(el => [...el.children].every(child => child.getBoundingClientRect().top >= el.getBoundingClientRect().top && child.getBoundingClientRect().bottom <= el.getBoundingClientRect().bottom))), 'dependency cards must not be clipped');
@@ -38,7 +38,9 @@ try {
   const after = await bands.first().boundingBox();
   assert.ok(after.width > before.width, 'cycle bands scale with graph zoom');
   assert.ok(await checkAlignment(), 'nodes remain aligned after zoom');
-  await page.evaluate(() => window.testGraph.panBy({ x: 40, y: 20 }));
+  await page.evaluate(() => {
+    window.testGraph.panBy({ x: 40, y: 20 });
+  });
   assert.ok(await checkAlignment(), 'nodes remain aligned after panning');
   await page.locator('#bands').uncheck();
   assert.equal(await page.locator('.graph-band').count(), 0);

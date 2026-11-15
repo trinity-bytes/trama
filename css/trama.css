@@ -34,27 +34,27 @@
   src: url(../assets/trama/font-4.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Instrument Serif";
+  font-family: "Schibsted Grotesk";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 900;
   font-display: swap;
-  src: url(../assets/trama/font-5.ttf) format("truetype");
+  src: url(../assets/trama/schibsted-grotesk.ttf) format("truetype");
 }
 :root {
-  --canvas: #061c1a;
-  --surface: #0d2925;
-  --raised: #12352f;
-  --line: #1c433c;
-  --strong: #2a5a51;
-  --text: #ecf2e9;
-  --muted: #8fa9a0;
-  --faint: #809d93;
-  --lime: #cbf15a;
-  --amber: #f5b544;
-  --teal: #2cc9a7;
-  --on-accent: #072019;
-  --tint-lime: #1b3a26;
-  --tint-amber: #2e3523;
+  --canvas: #0f1813;
+  --surface: #162019;
+  --raised: #1d2a22;
+  --line: #26342b;
+  --strong: #3a4b3f;
+  --text: #ece8dc;
+  --muted: #a3ad9f;
+  --faint: #869180;
+  --bone: #e9e2c9;
+  --terracotta: #e98a54;
+  --sage: #86c29a;
+  --on-accent: #131b15;
+  --tint-bone: #2b3229;
+  --tint-terracotta: #36281f;
   color-scheme: dark;
   font-family: Geist, sans-serif;
   color: var(--text);
@@ -103,7 +103,7 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 summary:focus-visible {
-  outline: 2px solid var(--lime);
+  outline: 2px solid var(--bone);
   outline-offset: 4px;
 }
 input {
@@ -113,13 +113,13 @@ input {
   border-radius: 9px;
   padding: 10px;
   min-width: 0;
-  caret-color: var(--lime);
+  caret-color: var(--bone);
 }
 input::placeholder {
   color: var(--faint);
 }
 ::selection {
-  background: var(--lime);
+  background: var(--bone);
   color: var(--on-accent);
 }
 h1,
@@ -130,16 +130,17 @@ p {
 }
 h1,
 h2 {
-  font-family: "Instrument Serif", serif;
-  font-weight: 400;
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   overflow-wrap: anywhere;
 }
 h1 {
-  font-size: 40px;
-  line-height: 44px;
+  font-size: 2.125rem;
+  line-height: 1.294;
 }
 h2 {
-  font-size: 36px;
+  font-size: 2.125rem;
   line-height: 1.1;
 }
 h3 {
@@ -155,8 +156,8 @@ img {
 button.primary,
 .selected {
   color: var(--on-accent);
-  background: var(--lime);
-  border-color: var(--lime);
+  background: var(--bone);
+  border-color: var(--bone);
 }
 .mono,
 kbd {
@@ -164,11 +165,11 @@ kbd {
   font-size: 11px;
   font-weight: 400;
 }
-.lime {
-  color: var(--lime);
+.bone {
+  color: var(--bone);
 }
-.amber {
-  color: var(--amber);
+.terracotta {
+  color: var(--terracotta);
 }
 .muted {
   color: var(--muted);
@@ -188,7 +189,7 @@ kbd {
   top: -100px;
   left: 16px;
   padding: 12px;
-  background: var(--lime);
+  background: var(--bone);
   color: var(--on-accent);
   z-index: 100;
 }
@@ -209,9 +210,10 @@ kbd {
   gap: 10px;
   border: 0;
   padding: 0;
-  font-family: "Instrument Serif", serif;
-  font-size: 28px;
-  font-weight: 400;
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 .view-nav {
   display: flex;
@@ -229,7 +231,7 @@ kbd {
   color: var(--muted);
 }
 [data-view][aria-current="page"] {
-  background: var(--lime);
+  background: var(--bone);
   color: var(--on-accent);
 }
 .search {
@@ -268,9 +270,8 @@ kbd {
   color: var(--muted);
 }
 .seed-chip span {
-  font-family: "Geist Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.04em;
+  font-size: 0.75rem;
+  font-weight: 500;
   max-width: 190px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -303,7 +304,7 @@ main {
 .legend {
   display: flex;
   gap: 16px;
-  font-size: 11px;
+  font-size: 0.75rem;
   color: var(--muted);
   padding-bottom: 3px;
 }
@@ -320,15 +321,15 @@ main {
   border-radius: 3px;
 }
 .requires {
-  background: var(--tint-lime);
-  border-color: var(--lime) !important;
+  background: var(--tint-bone);
+  border-color: var(--bone) !important;
 }
 .unlocks {
-  background: var(--tint-amber);
-  border-color: var(--amber) !important;
+  background: var(--tint-terracotta);
+  border-color: var(--terracotta) !important;
 }
 .indirect {
-  border: 1px dashed var(--amber) !important;
+  border: 1px dashed var(--terracotta) !important;
 }
 .legend .requires {
   border: 1.5px solid;
@@ -359,41 +360,46 @@ main {
 .course {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 6px;
   text-align: left;
   width: 100%;
   height: 84px;
   padding: 10px 8px;
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   background: var(--surface);
   margin-bottom: 6px;
   font-size: 12px;
   min-width: 0;
 }
 .course.selected {
-  background: var(--lime);
+  background: var(--bone);
   color: var(--on-accent);
-  border-color: var(--lime);
+  border-color: var(--bone);
 }
 .course.requires {
-  background: var(--tint-lime);
+  border-width: 1.5px;
+  background: var(--tint-bone);
 }
 .course.unlocks {
-  background: var(--tint-amber);
+  border-width: 1.5px;
+  background: var(--tint-terracotta);
 }
 .course-meta {
   width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 3px;
-  font:
-    10px "Geist Mono",
-    monospace;
+  font-size: 0.75rem;
   color: var(--faint);
 }
+.course-meta > span:first-child {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+}
 .course-meta > span:last-child {
-  font-size: 9px;
+  font-size: 0.75rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -402,11 +408,11 @@ main {
   color: var(--on-accent);
 }
 .course.requires .course-meta {
-  color: var(--lime);
+  color: var(--bone);
 }
 .course.unlocks .course-meta,
 .course.indirect .course-meta > span:last-child {
-  color: var(--amber);
+  color: var(--terracotta);
 }
 .course-name {
   font-weight: 500;
@@ -436,31 +442,32 @@ main {
 }
 .course-identity h2 {
   margin: 6px 0 18px;
-  font-size: 36px;
+  font-size: 2.125rem;
 }
 .stats {
   display: flex;
-  gap: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
   margin: 15px 0;
 }
 .stats > span {
   display: flex;
-  flex-direction: column;
+  align-items: baseline;
   color: var(--muted);
-  font-size: 11px;
-  gap: 2px;
+  font-size: 0.8125rem;
+  gap: 5px;
 }
 .stats strong {
-  font-size: 22px;
+  font-size: 0.8125rem;
   color: var(--text);
   font-weight: 600;
   line-height: 26px;
 }
-.stats .lime {
-  color: var(--lime);
+.stats .bone {
+  color: var(--bone);
 }
-.stats .amber {
-  color: var(--amber);
+.stats .terracotta {
+  color: var(--terracotta);
 }
 .actions {
   display: flex;
@@ -490,10 +497,10 @@ main {
   margin-bottom: 22px;
 }
 .flow-lane:first-child h3 {
-  color: var(--lime);
+  color: var(--bone);
 }
 .flow-lane:nth-of-type(3) h3 {
-  color: var(--amber);
+  color: var(--terracotta);
 }
 .flow-lane > div {
   display: flex;
@@ -653,35 +660,24 @@ main {
   margin: 4px 0 0;
 }
 .rule > span:last-child {
-  font:
-    12px "Geist Mono",
-    monospace;
+  font-size: 0.75rem;
   min-width: 55px;
   text-align: right;
 }
-.rule-progress {
-  height: 6px;
-  width: 100px;
-  border-radius: 4px;
-  background: var(--amber);
-}
-.rule-progress.ok {
-  background: var(--lime);
-}
 .demo-note {
-  border: 1px solid var(--amber);
-  background: var(--tint-amber);
+  border: 1px solid var(--line);
+  background: var(--raised);
   padding: 20px;
   border-radius: 18px;
 }
 .demo-note h3 {
-  color: var(--amber);
+  color: var(--text);
 }
 .analysis-cycle {
   margin-top: 28px;
 }
 .analysis-cycle > h3 {
-  font-family: "Geist Mono", monospace;
+  font-family: Geist, sans-serif;
   font-size: 12px;
   color: var(--muted);
   padding-bottom: 12px;
@@ -734,7 +730,7 @@ main {
   gap: 6px;
 }
 .graph-options input {
-  accent-color: var(--lime);
+  accent-color: var(--bone);
 }
 .graph-shell {
   position: relative;
@@ -753,14 +749,14 @@ main {
 }
 .graph-band {
   position: absolute;
-  background: #0a2521;
+  background: var(--surface);
   color: var(--muted);
   text-align: center;
   font-size: 12px;
   padding-top: 12px;
 }
 .graph-band:nth-child(even) {
-  background: #10312b;
+  background: var(--raised);
 }
 #graph {
   position: absolute;
@@ -826,7 +822,8 @@ dialog {
   overscroll-behavior: contain;
 }
 dialog::backdrop {
-  background: rgb(0 12 10 / 0.72);
+  background: rgb(15 24 19 / 0.72);
+  backdrop-filter: blur(3px);
 }
 .dialog-head {
   display: flex;
@@ -836,7 +833,7 @@ dialog::backdrop {
   margin-bottom: 20px;
 }
 .dialog-head h2 {
-  font-size: 36px;
+  font-size: 2.125rem;
 }
 .dialog-head button {
   border: 0;
@@ -858,9 +855,8 @@ dialog form input {
   display: flex;
   gap: 12px;
   align-items: center;
-  font:
-    40px "Instrument Serif",
-    serif;
+  font: 600 2rem/1.1 "Schibsted Grotesk", sans-serif;
+  letter-spacing: -0.02em;
 }
 dialog .relationship-strip {
   display: block;
@@ -896,7 +892,7 @@ dialog .clear-selection {
   left: 50%;
   transform: translateX(-50%);
   background: var(--raised);
-  border: 1px solid var(--teal);
+  border: 1px solid var(--sage);
   border-radius: 12px;
   padding: 14px 20px;
   font-size: 13px;
@@ -912,14 +908,14 @@ dialog .clear-selection {
   button.primary:hover,
   .course.selected:hover,
   [data-view][aria-current="page"]:hover {
-    background: #d8fa78;
+    background: var(--text);
   }
   .course:hover {
     border-color: var(--strong);
   }
   .brand:hover {
     background: transparent;
-    color: var(--lime);
+    color: var(--bone);
   }
 }
 @media (min-width: 1600px) {
@@ -959,7 +955,7 @@ dialog .clear-selection {
     width: 28%;
   }
   .course-identity h2 {
-    font-size: 30px;
+    font-size: 1.75rem;
   }
   .relationship-strip {
     gap: 20px;
@@ -968,14 +964,8 @@ dialog .clear-selection {
   .flow-lanes {
     gap: 6px;
   }
-  .flow-arrow {
-    width: 16px;
-  }
   .analysis-layout {
     grid-template-columns: minmax(0, 1fr) 270px;
-  }
-  .rule-progress {
-    display: none;
   }
   .analysis-controls {
     margin-top: 0;
@@ -995,7 +985,7 @@ dialog .clear-selection {
     flex-wrap: wrap;
   }
   .brand {
-    font-size: 28px;
+    font-size: 1.5rem;
     margin-right: auto;
   }
   .view-nav {
@@ -1038,8 +1028,8 @@ dialog .clear-selection {
     display: block;
   }
   h1 {
-    font-size: 32px;
-    line-height: 36px;
+    font-size: 1.75rem;
+    line-height: 1.286;
   }
   .subtitle {
     font-size: 11px;
@@ -1078,9 +1068,9 @@ dialog .clear-selection {
     color: var(--text);
   }
   .cycle-picker [aria-current="true"] {
-    background: var(--lime);
+    background: var(--bone);
     color: var(--on-accent);
-    border-color: var(--lime);
+    border-color: var(--bone);
   }
   .cycle-picker [aria-current="true"] strong {
     color: var(--on-accent);
@@ -1139,7 +1129,7 @@ dialog .clear-selection {
     color: var(--muted);
   }
   .bottom-nav [aria-current="page"] {
-    background: var(--lime);
+    background: var(--bone);
     color: var(--on-accent);
     border-radius: 16px;
   }
@@ -1189,7 +1179,7 @@ dialog .clear-selection {
     border-radius: 16px;
   }
   .panel h2 {
-    font-size: 30px;
+    font-size: 1.75rem;
   }
   .verdict-head {
     align-items: start;
@@ -1207,9 +1197,6 @@ dialog .clear-selection {
   }
   .rule p {
     font-size: 12px;
-  }
-  .rule-progress {
-    display: none;
   }
   .rule > span:last-child {
     font-size: 11px;
@@ -1382,10 +1369,24 @@ dialog .clear-selection {
   .bottom-nav button img {
     padding: 0;
   }
-  .bottom-nav button[aria-current="page"] img {
-    background: var(--lime);
-    border-radius: 8px;
-    outline: 5px solid var(--lime);
+  .bottom-nav .nav-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 28px;
+    border-radius: 999px;
+  }
+  .bottom-nav .active-icon {
+    display: none;
+  }
+  .bottom-nav [aria-current="page"] .nav-icon {
+    background: var(--bone);
+  }
+  .bottom-nav [aria-current="page"] .active-icon {
+    display: block;
+  }
+  .bottom-nav [aria-current="page"] .inactive-icon {
+    display: none;
   }
 }
 
@@ -1438,5 +1439,41 @@ dialog .clear-selection {
   .course-meta,
   .course-meta > span:last-child {
     font-size: 12px;
+  }
+}
+
+.course.selected .course-name {
+  font-weight: 600;
+}
+.course.dimmed .course-name {
+  color: var(--muted);
+}
+
+.identity-caption {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+@media (max-width: 700px) {
+  .seed-prefix {
+    display: none;
+  }
+  .app-bar {
+    border-bottom: 0;
+  }
+  .mobile-selection-copy {
+    min-width: 0;
+  }
+  .mobile-selection-copy p {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .mobile-selection-copy .stats {
+    margin: 3px 0 0;
+    gap: 10px;
+  }
+  .mobile-selection-copy .stats > span {
+    font-size: 0.75rem;
   }
 }

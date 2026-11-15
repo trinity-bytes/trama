@@ -10,14 +10,18 @@
     · <a href="CHANGELOG.md">Changelog</a>
   </p>
   <p>
-    <a href="https://github.com/trinity-bytes/trama/tree/3.0.1"><img src="https://img.shields.io/badge/version-3.0.1-cbf15a?labelColor=0d2925" alt="Version 3.0.1"></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-cbf15a?labelColor=0d2925" alt="MIT license"></a>
-    <img src="https://img.shields.io/badge/built_with-vanilla_JavaScript-cbf15a?labelColor=0d2925" alt="Built with vanilla JavaScript">
+    <a href="https://github.com/trinity-bytes/trama/tree/3.1.0"><img src="https://img.shields.io/badge/version-3.1.0-e9e2c9?labelColor=162019" alt="Version 3.1.0"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-e9e2c9?labelColor=162019" alt="MIT license"></a>
+    <img src="https://img.shields.io/badge/built_with-vanilla_JavaScript-e9e2c9?labelColor=162019" alt="Built with vanilla JavaScript">
   </p>
 <a href="https://github.com/Gentleman-Programming/gentle-ai">
   <img width="220" src="https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/docs/assets/brand/built-with-gentle-ai.png" alt="Built with Gentle-AI" />
 </a>
 </div>
+
+<a href="https://trama.jahattrinidad.com/">
+  <img src="assets/trama/social-preview.png" alt="Trama: see the curriculum, follow the connections — the approved Figma Cover with a prerequisite graph" width="1200" height="630">
+</a>
 
 <a href="https://trama.jahattrinidad.com/?seed=2025&course=6">
   <img src="assets/screenshots/v3/curriculum-desktop.png" alt="Trama's desktop curriculum: ten cycle columns, a selected course and its direct and indirect dependencies" width="1440">
@@ -91,13 +95,15 @@ js/
 ├── application/   Explicit state, actions and search selectors
 ├── ui/            App shell, views and presentation helpers
 └── adapters/      Cytoscape integration
-css/trama.css      Grove tokens, components and responsive layouts
+css/trama.css      Loom tokens, components and responsive layouts
 tests/             Domain, state, presentation and browser regression checks
 ```
 
 Relationships have a single canonical representation: directed edges from a prerequisite to the course that requires it. Views, analysis and exports derive from that data. Regeneration updates the shared state instead of leaving each screen to manage its own copy.
 
-The Grove interface uses deep green surfaces, lime for selection and prerequisites, and amber for downstream relationships. Its fonts and visual assets are self-hosted.
+The Loom interface uses forest-green surfaces, bone for selection and prerequisites, and terracotta for downstream relationships. Schibsted Grotesk headings, quieter course tiles and compact inline stats follow the approved Figma de-slop. Fonts and visual assets are self-hosted.
+
+The website's Open Graph and Twitter large-image cards use the exact 1200×630 export from the Figma **Cover** page, stored in [`assets/trama/social-preview.png`](assets/trama/social-preview.png). Social metadata points to the canonical production URL; no temporary Figma URLs are used at runtime.
 
 <details>
 <summary><strong>Design references and legacy source</strong></summary>
@@ -126,11 +132,13 @@ With the local server running and Playwright available:
 ```sh
 TRAMA_BASE_URL=http://localhost:8000 node tests/browser/flows.mjs
 TRAMA_BASE_URL=http://localhost:8000 node tests/browser/mobile-accessibility.mjs
+TRAMA_BASE_URL=http://localhost:8000 node tests/browser/loom-design.mjs
+TRAMA_BASE_URL=http://localhost:8000 node tests/browser/layout-regressions.mjs
 ```
 
 Set `PLAYWRIGHT_MODULE` to an existing Playwright module path when it is not resolvable as `playwright`. Set `CHROMIUM_PATH` when Chromium is not at `/usr/bin/chromium`.
 
-The browser checks exercise desktop, tablet and mobile layouts, downloads, graph controls, dialog focus restoration and minimum mobile touch targets. Chromium and Playwright are development tools, not application dependencies.
+The browser checks exercise desktop, tablet and mobile layouts, downloads, graph controls, dialog focus restoration and minimum mobile touch targets. The Loom check also verifies approved colors, loaded display font, asset geometry, borderless tiles and compact stats at 1440, 768 and 390px. Chromium and Playwright are development tools, not application dependencies.
 
 Automated checks do not replace real screen-reader or physical-device testing. Implementation evidence and limitations are recorded in [the v3 work log](odd/tasks/trama-v3.md).
 
@@ -146,4 +154,4 @@ GitHub Pages publishes the repository root from **`main`** to **[trama.jahattrin
 
 Built by **Trinity Bytes**. Released under the [MIT license](LICENSE).
 
-Graph rendering: [Cytoscape.js](https://js.cytoscape.org/) and [Dagre](https://github.com/dagrejs/dagre). Typefaces: Geist, Geist Mono and Instrument Serif; their licenses are included in [`assets/trama/`](assets/trama/).
+Graph rendering: [Cytoscape.js](https://js.cytoscape.org/) and [Dagre](https://github.com/dagrejs/dagre). Typefaces: Geist, Geist Mono and Schibsted Grotesk; their licenses are included in [`assets/trama/`](assets/trama/).
