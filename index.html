@@ -6,13 +6,29 @@
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
     />
-    <meta name="theme-color" content="#061c1a" />
+    <meta name="theme-color" content="#0f1813" />
     <meta name="color-scheme" content="dark" />
     <meta
       name="description"
       content="Trama: explora una malla curricular y sus relaciones de prerrequisitos."
     />
     <title>Trama — Malla curricular</title>
+    <link rel="canonical" href="https://trama.jahattrinidad.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Trama" />
+    <meta property="og:url" content="https://trama.jahattrinidad.com/" />
+    <meta property="og:title" content="Trama — Malla curricular" />
+    <meta property="og:description" content="Trama: explora una malla curricular y sus relaciones de prerrequisitos." />
+    <meta property="og:image" content="https://trama.jahattrinidad.com/assets/trama/social-preview.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Trama: explorador de mallas curriculares con un grafo de prerrequisitos y conexiones entre cursos." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Trama — Malla curricular" />
+    <meta name="twitter:description" content="Trama: explora una malla curricular y sus relaciones de prerrequisitos." />
+    <meta name="twitter:image" content="https://trama.jahattrinidad.com/assets/trama/social-preview.png" />
+    <meta name="twitter:image:alt" content="Trama: explorador de mallas curriculares con un grafo de prerrequisitos y conexiones entre cursos." />
     <link rel="icon" href="assets/trama/mark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="css/trama.css" />
     <script defer src="js/lib/cytoscape.min.js"></script>
@@ -46,9 +62,9 @@
         /><kbd>/</kbd></label
       >
       <button class="seed-chip" data-action="seed">
-        <img src="assets/trama/dot.svg" width="6" height="6" alt="" /><span
+        <img src="assets/trama/dot.svg" width="6" height="6" alt="" /><span class="seed-prefix">Demo ·</span><span
           id="seed-label"
-          >SEMILLA</span
+          >Semilla</span
         ><img src="assets/trama/regenerate.svg" width="14" height="14" alt="" />
       </button>
       <button
@@ -69,26 +85,11 @@
     <main id="workspace" tabindex="-1"></main>
     <nav class="bottom-nav" aria-label="Vistas móviles">
       <button data-view="grid">
-        <img
-          src="assets/trama/nav-grid.svg"
-          width="20"
-          height="20"
-          alt=""
-        />Malla</button
+        <span class="nav-icon"><img class="inactive-icon" src="assets/trama/nav-grid-inactive.svg" width="20" height="20" alt="" /><img class="active-icon" src="assets/trama/nav-grid.svg" width="20" height="20" alt="" /></span>Malla</button
       ><button data-view="graph">
-        <img
-          src="assets/trama/nav-graph.svg"
-          width="20"
-          height="20"
-          alt=""
-        />Grafo</button
+        <span class="nav-icon"><img class="inactive-icon" src="assets/trama/nav-graph.svg" width="20" height="20" alt="" /><img class="active-icon" src="assets/trama/nav-graph-active.svg" width="20" height="20" alt="" /></span>Grafo</button
       ><button data-view="analysis">
-        <img
-          src="assets/trama/nav-analysis.svg"
-          width="20"
-          height="20"
-          alt=""
-        />Análisis
+        <span class="nav-icon"><img class="inactive-icon" src="assets/trama/nav-analysis.svg" width="20" height="20" alt="" /><img class="active-icon" src="assets/trama/nav-analysis-active.svg" width="20" height="20" alt="" /></span>Análisis
       </button>
     </nav>
     <div

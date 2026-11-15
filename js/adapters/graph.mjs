@@ -88,11 +88,11 @@ export function createGraph(
         selector: "node",
         style: {
           shape: "round-rectangle",
-          "background-color": "#0d2925",
-          "border-color": "#2a5a51",
-          "border-width": 1,
+          "background-color": "#162019",
+          "border-color": "#3a4b3f",
+          "border-width": 0,
           label: "data(label)",
-          color: "#ecf2e9",
+          color: "#ece8dc",
           "font-family": "Geist",
           "font-size": 11,
           "text-wrap": "wrap",
@@ -105,48 +105,48 @@ export function createGraph(
       {
         selector: "node.selected",
         style: {
-          "background-color": "#cbf15a",
-          color: "#072019",
-          "border-color": "#cbf15a",
+          "background-color": "#e9e2c9",
+          color: "#131b15",
+          "border-color": "#e9e2c9",
         },
       },
       {
         selector: "node.requires",
         style: {
-          "background-color": "#1b3a26",
-          "border-color": "#cbf15a",
+          "background-color": "#2b3229",
+          "border-color": "#e9e2c9",
           "border-width": 2,
         },
       },
       {
         selector: "node.unlocks",
         style: {
-          "background-color": "#2e3523",
-          "border-color": "#f5b544",
+          "background-color": "#36281f",
+          "border-color": "#e98a54",
           "border-width": 2,
         },
       },
       {
         selector: "node.indirect",
-        style: { "border-color": "#f5b544", "border-style": "dashed" },
+        style: { "border-color": "#e98a54", "border-style": "dashed", "border-width": 1 },
       },
       {
         selector: "edge",
         style: {
           width: 1.5,
-          "line-color": "#2a5a51",
-          "target-arrow-color": "#2a5a51",
+          "line-color": "#3a4b3f",
+          "target-arrow-color": "#3a4b3f",
           "target-arrow-shape": "triangle",
           "curve-style": "bezier",
         },
       },
       {
         selector: "edge.requires",
-        style: { "line-color": "#cbf15a", "target-arrow-color": "#cbf15a" },
+        style: { "line-color": "#e9e2c9", "target-arrow-color": "#e9e2c9" },
       },
       {
         selector: "edge.unlocks,edge.indirect",
-        style: { "line-color": "#f5b544", "target-arrow-color": "#f5b544" },
+        style: { "line-color": "#e98a54", "target-arrow-color": "#e98a54" },
       },
       { selector: "edge.indirect", style: { "line-style": "dashed" } },
     ],
@@ -175,7 +175,7 @@ export function createGraph(
       }),
     png: () => {
       const link = document.createElement("a");
-      link.href = cy.png({ bg: "#061c1a", full: true, scale: 2 });
+      link.href = cy.png({ bg: "#0f1813", full: true, scale: 2 });
       link.download = "trama-grafo.png";
       link.click();
     },
