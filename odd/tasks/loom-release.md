@@ -21,3 +21,5 @@ Ship the approved UI and Figma Cover preview. Branch: feature/loom-ui → develo
 - L5 Node domain/application/UI/metadata suites passed. All browser suites passed: corrected layout regression, Loom at 1440/768/390, full flows with zero page/asset errors, mobile focus and 44px targets. Cover PNG inspected at 1200×630. README screenshots refreshed from verified Loom captures; metadata test observed RED before tags and GREEN after.
 
 - L6 Feature commits: 82735ae (test harness), c553a74 (cohesive Loom UI/preview/docs/tests; 717 changed lines including 93-line license and Figma SVG exports; no PR requested). Git Flow integrated into develop and started release/3.1.0. VERSION, About, README badge and changelog synchronized to 3.1.0. Independent release verification follows before publication.
+
+- L7 Independent verifier approved S1/S3 and local S2 preparation at 6e12fb3: exact PNG hash 78f70ca4136665b87aa429b3748ef9fa43e58d91d1ce57ef25bcc0378245c61a, metadata test passes, release/version/docs/ancestry consistent; publication still pending. Parent reran metadata test and diff check.
